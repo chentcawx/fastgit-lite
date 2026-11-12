@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Rotate (re-generate) the FastGithub local CA.
 

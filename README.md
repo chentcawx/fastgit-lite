@@ -306,6 +306,7 @@ fastgithub.exe start / stop / --service
 | `totalWrite=0` | 上游请求是否发出 | 检查上游 TLS 握手；`totalWrite` 只统计发往上游的请求字节 |
 | 登录 / `Confirm access` / 表单提交一直转圈 | `dist\fastgithub.exe` 是否旧版 | 升级到 **1,086,464 B** 版本；新版转发前读满请求体（含 chunked / `Expect: 100-continue`） |
 | 第三方 OAuth 提示「授权失败」 | 报错页面域名是 `github.com` 还是回调域名 | 回调之后的换 token / 校验 `state` 由对方服务端完成，**不经本机代理**；重新发起一次全新授权，别复用旧 URL。详见 `docs/OAUTH-ASSESSMENT.md` |
+| `install-ca.ps1` 报「字符串缺少终止符: '」+ 中文乱码 / 「缺少右 }」 | Windows 10 自带 **PowerShell 5.1** 按 ANSI(GBK) 解码**无 BOM** 的 UTF-8 脚本 | 下载 **v2.1.6+** 发布包（所有 `.ps1` 内置 UTF-8 BOM）；若自行编辑过脚本，必须「另存为 UTF-8 **带 BOM**」，或改用 PowerShell 7 (`pwsh`) |
 
 **Releases 侧栏为什么会空白**：GitHub 新版仓库页把 `Releases / Sponsors / Used by / Contributors / Languages` 渲染成骨架屏，靠 `github.githubassets.com` 的 JS 异步填充。实测部分 CDN 节点 TCP 超时或 TLS 握手被 RST（`10054`），而旧版在第一个 IP 握手失败后直接返回 502 → JS 加载不全 → 骨架屏一直不消失。现在 TCP 或 TLS 失败都会自动换下一个测速优选 IP（最多 3 次），并优先复用上次成功的 IP；只有一个候选 IP 时立即重试一次；多 IP 时单次连接上限 5 秒，单 IP 保留完整 10 秒（压到 4 秒曾造成误判 502）。另经对照实验确认：给 github 系 CDN **发 SNI 会被立刻 RST**，所以全系域名必须省略 SNI。
 

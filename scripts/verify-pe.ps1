@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
   Verify that fastgithub.exe is a 32-bit Windows GUI PE with an asInvoker manifest.
 

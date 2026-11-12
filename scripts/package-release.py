@@ -96,9 +96,23 @@ def main() -> int:
     for name in USER_SCRIPTS:
         files[f"scripts/{name}"] = (ROOT / "scripts" / name).read_bytes()
 
+    # Windows PowerShell 5.1 (default on Windows 10) decodes BOM-less .ps1 as
+    # ANSI: Chinese messages turn into mojibake and can swallow a closing quote,
+    # producing ParserError. Force a UTF-8 BOM on every shipped .ps1. A .cmd
+    # file must stay BOM-free because cmd.exe would treat the BOM as part of
+    # the first command line.
+    utf8_bom = b"\xef\xbb\xbf"
+    for name, data in list(files.items()):
+        if name.endswith(".ps1") and not data.startswith(utf8_bom):
+            files[name] = utf8_bom + data
+        if name.endswith(".cmd") and data.startswith(utf8_bom):
+            raise SystemExit(f"refusing to package: {name} must not have a BOM (cmd.exe)")
+
     for name in files:
         if FORBIDDEN.search(name):
             raise SystemExit(f"refusing to package sensitive/runtime file: {name}")
+        if name.endswith(".ps1") and not files[name].startswith(utf8_bom):
+            raise SystemExit(f"refusing to package: {name} lacks UTF-8 BOM (PS 5.1)")
 
     sums = "".join(
         f"{sha256(data)}  {name}\n" for name, data in sorted(files.items())

@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     One-off install (or removal) of the FastGithub local CA for MITM mode.
 

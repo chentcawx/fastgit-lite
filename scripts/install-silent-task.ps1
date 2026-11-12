@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
   Optional silent logon autostart for fastgithub.exe. Never shows a UAC prompt.
 
