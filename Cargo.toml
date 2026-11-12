@@ -1,0 +1,36 @@
+[package]
+name = "fastgithub"
+version = "2.1.5"
+edition = "2021"
+rust-version = "1.97"
+description = "Silent background GitHub accelerator: Rust rewrite of FastGithub 2.1.5 for Windows 10 32-bit (x86)"
+license = "MIT"
+build = "build.rs"
+publish = false
+
+[[bin]]
+name = "fastgithub"
+path = "src/main.rs"
+
+# Pure Rust, no C toolchain dependency, no async runtime. All TLS crates below
+# were verified on i686-pc-windows-msvc by .workbuddy/dep-probe (MITM_API_OK).
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+rustls = { version = "0.23", default-features = false, features = ["ring", "std", "tls12"] }
+rcgen = { version = "0.13", default-features = false, features = ["ring", "pem", "x509-parser"] }
+time = { version = "0.3", features = ["formatting", "parsing", "macros"] }
+
+[features]
+default = []
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+
+[profile.dev]
+opt-level = 0
+debug = true

@@ -1,0 +1,66 @@
+# FastGithub 广告 / 追踪域名清单
+#
+# 一行一条。支持四种写法：
+#   example.com          精确域名
+#   *.example.com        通配（* 只匹配一段，不含点）
+#   ||example.com^       AdGuard / EasyList 格式
+#   0.0.0.0 example.com  hosts 文件格式
+# '#' 或 '//' 开头为注释；行尾 " # 说明" 也可。空行忽略。
+#
+# 命中后不解析 DNS、不连上游，直接返回 200 + 空内容（改状态码见
+# config/appsettings.json 的 FastGithub.Silent.AdBlock.StatusCode）。
+# 保存后 2 秒内自动热加载；若本文件是新建的，需重启程序一次。
+#
+# ⚠️ 只填「广告 / 追踪专用域名」。不要填通用静态资源 CDN
+#    （如 alicdn.com、bdstatic.com、qq.com），否则会破坏正常页面。
+# ⚠️ 广告域名同时会被写进 PAC，确保浏览器把请求送进代理才能拦到。
+
+# --- 百度联盟 / 搜索推广 ---
+pos.baidu.com
+cpro.baidu.com
+cbjs.baidu.com
+wm.baidu.com
+dup.baidustatic.com
+eiv.baidu.com
+
+# --- 阿里妈妈 / 淘宝 /  tanx 广告 ---
+a.alimama.com
+afp.alicdn.com
+gma.alicdn.com
+ad.m.taobao.com
+cpro.tanx.com
+*.tanx.com
+
+# --- 搜狗推广 ---
+union.sogou.com
+p4p.sogou.com
+
+# --- 第三方广告平台 / 监测 ---
+*.admaster.com.cn
+*.ipinyou.com
+*.miaozhen.com
+adsmind.gdtimg.com
+*.adsame.com
+*.allyes.com
+
+# --- 移动 / 应用内广告 ---
+ad.xiaomi.com
+*.ad.xiaomi.com
+
+# --- 统计 / 追踪（默认关闭，按需取消注释）---
+# hm.baidu.com
+# s13.cnzz.com
+# c.cnzz.com
+# z1.cnzz.com
+# v1.cnzz.com
+# s4.cnzz.com
+# s9.cnzz.com
+# s11.cnzz.com
+# s19.cnzz.com
+# s22.cnzz.com
+# cnzz.mmstat.com
+# js.users.51.la
+# img.users.51.la
+# log.umeng.com
+# alog.umeng.com
+# gm.mmstat.com

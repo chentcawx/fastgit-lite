@@ -1,0 +1,10 @@
+# Default build target: Windows 10 32-bit (x86), MSVC toolchain.
+[build]
+target = "i686-pc-windows-msvc"
+
+[target.i686-pc-windows-msvc]
+rustflags = ["-C", "link-arg=/MACHINE:X86"]
+
+# Host-side builds used for development / unit checks:
+#   cargo check --target x86_64-pc-windows-msvc
+#   cargo test  --target x86_64-pc-windows-msvc
